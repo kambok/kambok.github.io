@@ -1,23 +1,1580 @@
 <!DOCTYPE html>
-<html>
-    <head>
-<title>kambok infotech</title>
-<style>
-    input{
-        height: 40px;
+
+<html xmlns:th ="http://www.thymeleaf.org" > 
+<head>  
+  <title>Kambok Infotech</title>  
+  <meta charset="utf-8"> 
+  
+  
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="shortcut icon" href="images/kam.png" type="image/x-icon">    
+  <meta name="viewport" content="width=device-width, initial-scale=1"> 
+ <link href="../vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
+ <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.13.1/css/jquery.dataTables.css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">  
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+  <script src='https://kit.fontawesome.com/a076d05399.js' crossorigin='anonymous'></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+ <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.js"></script> 
+        
+  <script type="text/javascript">
+   var request;
+  
+   function sendRegister()  
+   {  
+   var fn=document.myform2.fn.value;
+   var mn=document.myform2.mn.value;
+   var ln=document.myform2.ln.value;
+   var email=document.myform2.em.value;
+   var pass=document.myform2.ps.value;
+   var cpass=document.myform2.cps.value;
+   var cn=document.myform2.cn.value;
+   var num=document.myform2.num.value;
+   var occ=document.myform2.occupation.value;
+   var edu=document.myform2.ed.value;
+   var gender=document.myform2.gender.value;
+   var message=document.myform2.mymsg.value;
+   
+   
+   if((fn!="" && phone!="" )&& (gender!="" && email!="") && message!=""){
+     //document.getElementById('ddd').innerHTML="information received...";   
+       
+   var url="/Register?fn="+fn+"&mn="+mn+"&ln="+ln+"&email="+email+"&pass="+pass+"&cn="+cn+"&num="+num+"&occ="+occ+"&edu="+edu+"&gender="+gender+"&msg="+message;
+     
+   if(window.XMLHttpRequest){  
+   request=new XMLHttpRequest();  
+   }  
+   else if(window.ActiveXObject){  
+   request=new ActiveXObject("Microsoft.XMLHTTP");  
+   }  
+     
+   try  
+   {  
+   request.onreadystatechange=getmsg;  
+   request.open("GET",url,true);  
+   request.send();  
+   }  
+   catch(e)  
+   {  
+   alert("Unable to connect to server");  
+   }
+   }else{
+    document.getElementById('dcd').innerHTML="you are required to fill all information!";    
+       
+   }
+   }
+     
+     
+     
+   function getmsg(){  
+   if(request.readyState==4){  
+   var val=request.responseText;  
+   document.getElementById('cdcd').innerHTML=val;  
+   } 
+   }
+
+
+  
+  
+  async function upload(){
+	 // var formData = new FormData();
+		var first=document.getElementById("f1").value;
+		var lastname=document.getElementById("l1").value;
+		var phone=document.getElementById("p1").value;
+		var address=document.getElementById("a1").value;
+		var identity=document.getElementById("i1").value;
+		var adm1=document.getElementById("ad1").value;
+		var adm2=document.getElementById("ad2").value;
+		
+	//alert(first);
+	 let formData = new FormData(); 
+	  formData.append("file", photo.files[0]);
+	  formData.append("firstname",first);
+	  formData.append("lastname",lastname);
+	  formData.append("phone",phone);
+	  formData.append("address",address);
+	  formData.append("identity",identity);
+	  formData.append("adm1",adm1);
+	  formData.append("adm2",adm2);
+	  
+	  let response = await fetch('/loanregister', {
+	    method: "POST", 
+	    body: formData
+	    }); 
+
+	  if (response.status==200) {
+		 //var val=response.responseText;
+	    alert("Data submitted");
+	    }
+	  
+	
+  }
+  
+  
+  async function upload2(){
+		 // var formData = new FormData();
+			var trid=document.getElementById("tr1").value;
+			var phone=document.getElementById("ph1").value;
+			
+			
+		//alert(first);
+		 let formData = new FormData(); 
+		  formData.append("coll", coll.files[0]);
+		  formData.append("own", own.files[0]);
+		  formData.append("trid",trid);
+		  formData.append("phone",phone);
+	
+		  
+		  let response = await fetch('/uploadData', {
+		    method: "POST", 
+		    body: formData
+		    }); 
+
+		  if (response.status==200) {
+			 //var val=response.responseText;
+		    alert("Data Uploaded");
+		    }
+		  
+		
+	  }
+	  
+
+  
+  
+   async function sendDatas(){
+		var amount=document.getElementById("amount").value;
+		var du=document.getElementById("did").value;
+		var start=document.getElementById("tt").value;
+		var end=document.getElementById("ee").value;
+		var interest=document.getElementById("itt").value;
+		var phone=document.getElementById("pph").value;
+		var bankname=document.getElementById("bankname").value;	
+		var accountname=document.getElementById("accountname").value;
+		var accountno=document.getElementById("accountno").value;
+		var colname=document.getElementById("collateralname").value;
+		var colid=document.getElementById("collateralid").value;
+         //alert(amount);
+		
+		 let formData = new FormData();
+		 
+		  formData.append("file", colphoto.files[0]);
+		  formData.append("amount",amount);
+		  formData.append("duration",du);
+		  formData.append("interest",interest);
+		  formData.append("start",start);
+		  formData.append("end",end);
+		  formData.append("phone",phone);
+		  formData.append("bankname",bankname);
+		  formData.append("accountname",accountname);
+		  formData.append("accountno",accountno);
+		  formData.append("colname",colname);
+		  formData.append("colid",colid);
+		  let response = await fetch('/Finish', {
+			    method: "POST", 
+			    body: formData 
+			    }); 
+
+			  if (response.status==200) {
+			
+			    alert("Data submitted");
+			    }
+			  location.reload(); 
+	}
+   
+   function dataprint(){
+	   document.getElementById('txt1').style.display="none";
+       document.getElementById('txt2').style.display="none";
+       document.getElementById('txt3').style.display="none";
+       document.getElementById('t1').style.display="none";
+       document.getElementById('t2').style.display="none";
+       document.getElementById('t3').style.display="none";  
+	   var printContents = document.getElementById('data').innerHTML;
+	   //document.getElementById('data').style.fontSize="24px";   
+	    
+	       var originalContents = document.body.innerHTML;
+
+	       document.body.innerHTML = printContents;
+
+	       window.print();
+
+	       document.body.innerHTML = originalContents;
+	       
+	      
+   }
+   
+   function myprintt(divName){
+       
+       var printContents = document.getElementById(divName).innerHTML;
+       
+     var originalContents = document.body.innerHTML;
+
+     document.body.innerHTML = printContents;
+
+     window.print();
+
+     document.body.innerHTML = originalContents;
+   
+      }
+   
+   function txtcontro1(){
+	   var a=document.getElementById('txt1').value;
+	   document.getElementById('to1').innerHTML=a;
+	   //document.getElementById('txt1').style.display="none";
+
+   }
+   
+   function txtcontro2(){
+	  var b=document.getElementById('txt2').value;
+	  document.getElementById('to2').innerHTML=b;
+	   //document.getElementById('txt2').style.display="none";
+
+	  
+   }
+   
+   function txtcontro3(){
+	   var c=document.getElementById('txt3').value;
+	   document.getElementById('to3').innerHTML=c;
+	   //document.getElementById('txt3').style.display="none";
+
+	  
+   }
+</script>     
+<script> 
+var request;
+function senDetails(){
+var phone=document.getElementById("userphone").value;	
+
+   if(phone!="" && phone!=null){
+	if(phone.length==11){
+		var url="/Checkuser?phone="+phone;
+		  
+		if(window.XMLHttpRequest){  
+		request=new XMLHttpRequest();  
+		}  
+		else if(window.ActiveXObject){  
+		request=new ActiveXObject("Microsoft.XMLHTTP");  
+		}  
+		  
+		try  
+		{  
+		request.onreadystatechange=getInfocheck;  
+		request.open("GET",url,true);  
+		request.send();  
+		}  
+		catch(e)  
+		{  
+		alert("Unable to connect to server");  
+		}
+		
+	}else{
+		
+		alert("digit not complete");
+	}
+	
+
+   }else{
+	   
+	  
+	   document.getElementById('info').innerHTML="";
+   }
+}
+
+function getInfocheck(){  
+	if(request.readyState==4){  
+	const val=request.responseText;
+	//const val2="Invalid number";
+	//const val3="Pending transaction";
+	var len=Number(val.length);
+	var len2=Number(val.length);
+	
+	
+	if(len==14 && Number(document.getElementById("amount").value)!=0){
+		 //alert(val);
+		 if( len2==19){
+			 document.getElementById("applly").disabled = true; 	 
+		 }else{
+			 document.getElementById("applly").disabled = false; 	 
+		 }
+		
+	}else{
+		
+	document.getElementById("applly").disabled =true; 
+	 //alert("invalid number");
+	}
+	
+	document.getElementById('info').innerHTML=val;  
+	} 
+	}
+	
+function sendInfo()  
+{  
+var myname=document.fm.nm.value;
+var email=document.fm.el.value;
+var phone=document.fm.pe.value;
+var gender=document.fm.gr.value;
+var message=document.fm.mg.value;
+
+if((myname!="" && phone!="" )&& (gender!="" && email!="") && message!=""){
+  document.getElementById('ddd').innerHTML="information received";   
+    
+var url="Enquiring?name="+myname+"&email="+email+"&phone="+phone+"&gender="+gender+"&message="+message;
+  
+if(window.XMLHttpRequest){  
+request=new XMLHttpRequest();  
+}  
+else if(window.ActiveXObject){  
+request=new ActiveXObject("Microsoft.XMLHTTP");  
+}  
+  
+try  
+{  
+request.onreadystatechange=getInfo;  
+request.open("GET",url,true);  
+request.send();  
+}  
+catch(e)  
+{  
+alert("Unable to connect to server");  
+}
+}else{
+ document.getElementById('dcd').innerHTML="you are required to fill all information!";    
+    
+}
+}
+  
+  
+  
+function getInfo(){  
+if(request.readyState==4){  
+var val=request.responseText;  
+document.getElementById('ddd').innerHTML=val;  
+} 
+}
+
+function getResult()  
+{  
+var myname=document.dform.vreg.value;
+var lastname=document.dform.last.value;
+
+var leng=myname.length;
+
+if(leng>1 && leng==11){
+
+var url="/StatusChecker?name="+myname+"&last="+lastname;
+  
+if(window.XMLHttpRequest){  
+request=new XMLHttpRequest();  
+}  
+else if(window.ActiveXObject){  
+request=new ActiveXObject("Microsoft.XMLHTTP");  
+}  
+  
+try  
+{  
+request.onreadystatechange=getData;  
+request.open("GET",url,true);  
+request.send();  
+}  
+catch(e)  
+{  
+alert("Unable to connect to server");  
+}
+}else{
+    
+alert("enter complete phone number");    
+}
+}  
+  
+function getData(){  
+	if(request.readyState==4){  
+	var val=request.responseText;  
+	document.getElementById('data').innerHTML=val; 
+	//document.getElementById('interested').innerHTML="Interest: "+val; 
+	} 
+	}  
+
+</script>
+
+
+  <script>
+  
+  var request;
+  
+      function Recover(){
+    var a=document.myyform.reg.value; 
+    var lenght=a.length;
+       if(lenght==15){
+         
+       document.getElementById("bt").style.background="green"; 
+       document.getElementById("bt").style.border="2px solid green"; 
+   }else{
+     document.getElementById("bt").style.background="red"; 
+       document.getElementById("bt").style.border="2px solid red";    
+       
+   }
+   
+      }
+      
+      
+      window.onload=function(){checkdate();}
+      
+      function checkdate(){
+       var date=new Date();
+       var day=date.getDate();  
+       var month=date.getMonth()+1;  
+       var year=date.getFullYear();  
+       day=checkTime(day);  	
+       month=checkTime(month);  
+       return day+"/"+month+"/"+year; 
+      
+      }
+      
+    function checkTime(i){  
+   	if (i<10){  
+   	  i="0" + i;  
+   	 }  
+   	return i;  	}  
+    
+    //apply for a loan
+    
+ function apply(){
+	var amount=Number(document.getElementById("amount").value);
+	var duration=Number(document.getElementById("duration").value);
+	var end=document.getElementById("end").value;
+	var start=document.getElementById("start").value;
+	var interest=document.getElementById("interest").value;
+	var phone=document.getElementById("userphone").value;
+    	
+    //alert(amount+" "+duration+" "+start+" "+end+" "+interest);	
+    
+    var url="/Apply?amount="+amount+"&duration="+duration+"&start="+start+"&end="+end+"&interest="+interest+"&phone="+phone;
+   
+    if(window.XMLHttpRequest){  
+    request=new XMLHttpRequest();  
+    }  
+    else if(window.ActiveXObject){  
+    request=new ActiveXObject("Microsoft.XMLHTTP");  
+    }  
+      
+    try  
+    {  
+    request.onreadystatechange=getInfo;  
+    request.open("GET",url,true);  
+    request.send();  
+    }  
+    catch(e)  
+    {  
+    alert("Unable to connect to server");  
     }
-</style>
-    </head>
-    <body><center>
-        <h1>Admin login</h1>
-        <form>
-            <label>username</label><br />
-            <input type="email" name="name" size="40" placeholder="Username"><br /><br />
-            <label>password</label><br />
-            <input type="password" name="pass" size="40" placeholder="password"><br /><br />
-            <input type="submit" value="Login" style="padding:10px;color:cornsilk;background-color:navy;">
-            </form>
-            </center> 
-        </form>
-    </body>
-</html>
+    	
+}
+
+//code for calculating the dates margins and send datato server
+function collate(){
+	var end,start,amount,duration;
+     amount=Number(document.loan.amount.value);	
+      if(amount>0 && amount!=null){
+    	  
+       function du(){
+       var date=new Date();	 
+      document.getElementById("mydate").innerHTML="From:"+checkdate();
+      document.getElementById("start").value=checkdate();	
+      start=checkdate();
+       duration=Number(document.getElementById("duration").value);
+       var datenun=Number(date.getDate());
+        var month=date.getMonth()+1;
+        var year=date.getFullYear();
+         var limit=Number(datenun + (duration*7));
+          var last=Number(new Date(year, month, 0).getDate());
+        
+           
+	   
+           if(last>=limit){
+
+          if(datenun==limit){
+           var limit=limit +1;
+            end=checkTime(limit)+"/"+checkTime(month)+"/"+year;
+            document.getElementById("end").value=checkTime(limit)+"/"+checkTime(month)+"/"+year;
+            document.getElementById("endd").innerHTML="To:"+checkTime(limit)+"/"+checkTime(month)+"/"+year; 
+               }
+            document.getElementById("end").value=checkTime(limit)+"/"+checkTime(month)+"/"+year; 
+            document.getElementById("endd").innerHTML="To:"+checkTime(limit)+"/"+checkTime(month)+"/"+year; 
+             end=checkTime(limit)+"/"+checkTime(month)+"/"+year;
+              }else{
+             var day=limit-last;
+            var mon=Number(month);
+             var month=mon+1;
+              var year=year;
+               end=checkTime(day)+"/"+checkTime(month)+"/"+year;
+              document.getElementById("end").value=checkTime(day)+"/"+checkTime(month)+"/"+year;   
+              document.getElementById("endd").innerHTML="To:"+checkTime(day)+"/"+checkTime(month)+"/"+year; 
+                    }
+
+             //send datatoserver through ajax
+            var url="/Calculator?amount="+amount+"&duration="+duration+"&start="+start+"&end="+end;
+           //alert(amount+" "+duration+" "+start+" "+end);
+            // var url="/Calculator";
+           if(window.XMLHttpRequest){  
+           request=new XMLHttpRequest();  
+           }  
+           else if(window.ActiveXObject){  
+           request=new ActiveXObject("Microsoft.XMLHTTP");  
+           }  
+             
+           try  
+           {  
+           request.onreadystatechange=getInfoo;  
+           request.open("GET",url,true);  
+           request.send();  
+           }  
+           catch(e)  
+           {  
+           alert("Unable to connect to server");  
+           }
+	  
+                       }
+       
+       
+                    }
+	 
+	                du();
+ }     	
+
+
+function getInfoo(){  
+	if(request.readyState==4){  
+	var val=request.responseText;  
+	document.getElementById('interest').value=val;
+	document.getElementById('interested').innerHTML=val;
+	} 
+	}
+
+function getInfo(){  
+	if(request.readyState==4){  
+	var val=request.responseText;  
+	document.getElementById('apply').innerHTML=val; 
+	} 
+	} 
+
+  </script>
+  
+ 
+  <style>  
+  body {  
+      position: relative; 
+	 z-index: 1;  
+  }  
+  #section1 {padding-top:50px;height:auto;color:darkgray;}  
+  #section2 {padding-top:50px;height:auto;color:navy;}  
+  #section3 {padding-top:50px;height:auto;color:navy;}  
+  #section4 {padding-top:50px;height:600px;color:navy;}  
+  #section4-1 {padding-top:50px;height:600px;color:navy;}  
+  #section4-2 {padding-top:50px;height:600px;color:navy;}  
+  #section5 {padding-top:50px;height:auto;color:navy;}  
+  #section6 {padding-top:50px;height:600px;color:navy;}  
+  
+  #loanregister{padding-top:50px;height:auto;color:navy;} 
+   #uploadfile{padding-top:50px;height:auto;color:navy;} 
+  
+  .carousel-inner > .item > img,  
+  .carousel-inner > .item > a > img {  
+      
+      margin: auto; 
+     max-width:100%;
+  max-height:500px;
+ opacity:1.0;
+filter: brightness(100%);
+
+                           
+ }
+#box{
+border-radius:5px;
+width:auto;
+height:auto;
+box-shadow: -15px -15px 5px 0px navy;
+
+}
+
+ 
+
+.carousel-control.left, .carousel-control.right {
+    background-image: none
+}
+label{font-size:16px;opacity:1.0}
+
+
+ 
+    
+.main{
+  position: relative; 
+	 z-index: 1;    
+    
+}
+
+
+     
+    .main:before{
+        content: "";
+    position: absolute;
+    z-index: -1;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+   
+    opacity: .1;
+     background:url('images/kam2.jpg');background-size:100%;background-repeat:y-repeat;   
+   
+     }
+     
+     #bdc td,th,#tot{
+      font-size:18px;   
+     color:navy;  
+     
+       font-family:Helvetica;
+      text-shadow: 1px 1px Navy; 
+     }
+     
+     #bdc th,#tot{
+       color:brown;  
+     }
+     #bdc #tot{
+         
+         text-align:center;
+     }
+     #bdc td,th,table{
+         
+         border:none;
+     }
+       #bdc td{
+         
+       text-transform:capitalize;
+     }
+     #box{
+border-radius:5px;
+width:auto;
+height:auto;
+box-shadow: 10px 10px  navy;
+border:1px solid navy;
+
+}
+label{color:navy;font-family:New Time Roman;font-size: 18px; };
+#data p{
+font-size: 34px;
+color:black;
+}
+
+
+
+  </style>  
+</head>  
+<body data-spy="scroll" data-target=".navbar" data-offset="150" class="main">  
+ 
+<nav class="navbar navbar-default navbar-fixed-top" style="background-color:white;color:gray;border:none;border-bottom:10px solid navy;padding:10px;">  
+  <div class="container">  
+    <div class="navbar-header">  
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">  
+          <span class="icon-bar"></span>  
+          <span class="icon-bar"></span>  
+          <span class="icon-bar"></span>                          
+                                   
+      </button>  
+      <a class="navbar-brand" href=index.html style="opacity:1.0;filter: brightness(110%);"><img src="images/kam2.jpg" width="45" /></a>  
+      <a class="navbar-brand" href="index.html" style="color:navy;text-shadow: 1px 1px navy;font-size:25px;font-family:arial;margin-top:15px;">KAMBOK INFOTECH</a>  
+    </div>  
+    <div>  
+      <div class="collapse navbar-collapse" id="myNavbar" style="background-color:white;color:darkgray;">  
+        <ul class="nav navbar-nav" style="padding:10px;">  
+          <li class="active"><a href="#section1"  style="color:navy;font-size:16px;font-family:arial;">Home</a></li>  
+          <li><a href="#section2"  style="color:navy;font-size:16px;font-family:arial;">Contact Us</a></li>  
+          <li><a href="#section3"  style="color:navy;font-size:16px;font-family:arial;">Our Services</a></li>  
+          
+          
+          <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#"  style="color:navy;font-size:16px;font-family:arial;">Services<span class="caret"></span></a>  
+            <ul class="dropdown-menu" style="width:400px;padding:30px;background-color:none;">
+             <li><a href="#section7" style="color:navy;text-shadow: 1px 1px navy;font-size:18px;">Instant Cash</a></li>   
+              <li><a href="#section5" style="color:navy;text-shadow: 1px 1px navy;font-size:18px;">Training</a></li>  
+              <li><a href="#pos" style="color:navy;text-shadow: 1px 1px navy;font-size:18px;">Pos</a></li> 
+              <li><a href="#complete" style="color:navy;text-shadow: 1px 1px navy;font-size:18px;">Complete Registration</a></li>   
+               <li><a href="#review" style="color:navy;text-shadow: 1px 1px navy;font-size:18px;">Review Courses</a></li> 
+                  
+              <li><a href="#cashrevie" style="color:navy;text-shadow: 1px 1px navy;font-size:18px;">View payment</a></li> 
+              <li><a href="#cashrevie" style="color:navy;text-shadow: 1px 1px navy;font-size:18px;">Instant Cash Review</a></li>   
+                </ul>  
+          </li> 
+      	  
+        </ul> 
+    <ul class="nav navbar-nav navbar-right" style="border:none;outline:none;margin-top:10px;">  
+        <li><a href="#section5"  style="color:green;font-size:16px;font-family:arial;">&nbsp;Apply Now <span class="glyphicon glyphicon-user"></span> </a></li> 
+     
+    	<li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#"  style="color:navy;font-size:16px;font-family:arial;">Check status<span class="caret"></span></a>  
+            <ul class="dropdown-menu" style="width:400px;padding:30px;background-color:none;" >
+           <li><a href="#cashrevie" style="color:navy;text-shadow: 1px 1px navy;font-size:18px;" data-toggle="modal" data-target="#myModal">View transaction</a></li>   
+            <li><a href="#cashrevie" style="color:navy;text-shadow: 1px 1px navy;font-size:18px;" data-toggle="modal" data-target="#myModal2">Verify result</a></li>   
+              </ul></li> </ul>  
+		</div>  
+    </div>  
+  </div>
+
+</nav>      
+  
+  
+    <div class="modal fade" id="myModal" role="dialog">
+    <div class="modal-dialog modal-sm" style="width: 350px;">
+      <div class="modal-content" style="background-image:url('images/kam2.jpg');background-position: center;background-size: 90%;background-repeat:no-repeat;">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Search Information</h4>
+        </div>
+        <div class="modal-body">
+         <form class="form-inline" name="dform">
+         
+         <div class="form-group">  
+    <label for="exampleInputEmail1">Phone no &nbsp;<i class="glyphicon glyphicon-user"></i></label><br />  
+    <input type="text" class="form-control" id="exampleInputEmail1"  name="vreg" placeholder="phone number" required="required" style="border:none;border-bottom:2px solid navy;outline:none;height:50px;width:300px;font-size:16px;">  
+  </div> <br /> <br />
+  <div class="form-group">  
+    <label for="exampleInputPassword1">Last Name &nbsp;<i class="glyphicon glyphicon-lock"></i></label>  <br />
+    <input type="password" class="form-control" id="exampleInputPassword1" name="last" required="required"  placeholder="Password" style="border:none;border-bottom:2px solid navy;outline:none;height:50px;width:300px;font-size:16px;">  
+  </div> <br /> <br />
+
+    <button class="btn btn-success" type="button" onclick="getResult();" data-dismiss="modal" style="height:40px;outline: none;">Search</button>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <div class="modal fade" id="myModal2" role="dialog">
+    <div class="modal-dialog modal-sm" style="width: 350px;">
+      <div class="modal-content" style="background-image:url('images/kam2.jpg');background-position: center;background-size: 90%;background-repeat:no-repeat;">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Verify Result</h4>
+        </div>
+        <div class="modal-body">
+         <form class="form-inline" name="dform">
+         
+         <div class="form-group">  
+    <label for="exampleInputEmail1">Phone no &nbsp;<i class="glyphicon glyphicon-user"></i></label><br />  
+    <input type="text" class="form-control" id="exampleInputEmail1"  name="vreg" placeholder="Regno or email" required="required" style="border:none;border-bottom:2px solid navy;outline:none;height:50px;width:300px;font-size:16px;">  
+  </div> <br /> <br />
+  <div class="form-group">  
+    <label for="exampleInputPassword1">Last Name &nbsp;<i class="glyphicon glyphicon-lock"></i></label>  <br />
+    <input type="password" class="form-control" id="exampleInputPassword1" name="last" required="required"  placeholder="Password" style="border:none;border-bottom:2px solid navy;outline:none;height:50px;width:300px;font-size:16px;">  
+  </div> <br /> <br />
+
+    <button class="btn btn-success" type="button" onclick="getResult();" data-dismiss="modal" style="height:40px;outline: none;">Search</button>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  
+  
+  
+<div id="section1" class="container">
+   
+   
+   <br />
+   <br />
+   <br />
+   		   <div class="row">
+                      
+       <div class="col-md-1"></div>
+       
+       <div class="col-md-10" id="data" style="background-color: white;color:black;padding: 10px;" >
+         
+             
+     
+         </div>
+       <div class="col-md-1"></div>
+                   </div>
+   
+    <br />
+   
+
+ <div class="row">
+   <div class="col-md-8">
+    
+<div id="myCarousel" class="carousel slide carousel-fade" data-ride="carousel">  
+    <!-- Indicators -->  
+    <ol class="carousel-indicators">  
+      <li data-target="#myCarousel" data-slide-to="0" class="active"></li>  
+      <li data-target="#myCarousel" data-slide-to="1"></li>  
+      <li data-target="#myCarousel" data-slide-to="2"></li>  
+       <li data-target="#myCarousel" data-slide-to="3"></li>
+      
+    </ol>  
+  
+    <!-- Wrapper for slides -->  
+    <div class="carousel-inner" role="listbox">  
+      <div class="item active">  
+        <img src="images/9.jpg" alt="image 1" >  
+         
+      </div>  
+  
+     <div class="item">  
+        <img src="images/9.jpg" alt="image3" >  
+          
+          
+      </div> 
+        
+       
+        
+        <div class="item">  
+        <img src="images/9.jpg" alt="image3" >  
+          </div>
+        <div class="item">  
+        <img src="images/9.jpg" alt="image3" >  
+          </div>
+    </div>  
+  
+    <!-- Left and right controls -->  
+    <a class="left carousel-control" href="#myCarousel" role="button" data-slide="prev">  
+      <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>  
+      <span class="sr-only">Previous</span>  
+    </a>  
+    <a class="right carousel-control" href="#myCarousel" role="button" data-slide="next">  
+      <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>  
+      <span class="sr-only">Next</span>  
+    </a>  
+</div><!-- corousel end -->  
+   </div>
+     <br />
+    
+   
+ <div class="col-sm-4" id="box" style="padding-left:10px;color:navy;"><br /><br />
+
+<form style="width:290px" action="/" method="post">
+
+<p th:if ="${session['SPRING_SECURITY_LAST_EXCEPTION']} != null"
+th:text ="${session['SPRING_SECURITY_LAST_EXCEPTION'].message}"
+class ="text-danger" >
+Login error message
+</p>
+  <div class="form-group">  
+    <label for="exampleInputEmail1">Username &nbsp;<i class="glyphicon glyphicon-user"></i></label>  
+    <input type="text" class="form-control" id="exampleInputEmail1"  name="userId" placeholder="Regno or email" required="required" style="border:none;border-bottom:2px solid navy;outline:none;height:50px;width:300px;font-size:16px;">  
+  </div> <br /> 
+  <div class="form-group">  
+    <label for="exampleInputPassword1">Password &nbsp;<i class="glyphicon glyphicon-lock"></i></label>  
+    <input type="password" class="form-control" id="exampleInputPassword1" name="password" required="required"  placeholder="Password" style="border:none;border-bottom:2px solid navy;outline:none;height:50px;width:300px;font-size:16px;">  
+  </div> <br />
+<strong ><a href="index.html#section5" style="text-decoration:none; background-color:lightseagreen;color:white;padding:10px;">New Applicant?</a> &nbsp; &nbsp;
+</strong><strong><a href="#section4" style="text-decoration:none; background-color:navy;color:white;padding:10px;">Forgotten?</a></strong> <br /><br />
+<button type="submit" class="btn btn-success btn-lg" style="height:50px;outline: none;text-transform:capitalize;"><i class="fa fa-paper-plane"></i> Login</button> <br /><br /><span id="loc"></span> 
+<span id="cc" style="color:red;padding:5px;font-size:18px;"></span><br />
+<span id="dd" style="color:green;padding:5px;font-size:18px;"></span><br />
+     
+</form> 
+</div>
+</div>
+</div>
+    
+       <div id="section4" class="container"> 
+<div class="row"><br /><br /><br /><br />
+<div class="col-md-4"></div>
+<div class="col-md-4" id="box" style="padding-left:10px;"><br /><br />
+<big style="text-decoration:none; background-color:navy;color:white;padding:15px;">Recover Password</big><br /><br />
+<form style="width:290px" action="Recover" name="myyform">  
+  <div class="form-group">  
+    <label for="exampleInputEmail1">Regno &nbsp;<i class="glyphicon glyphicon-user"></i></label>  
+    <input type="text" class="form-control" id="exampleInputEmail1"  name="reg"  pattern="{15}" required="required" placeholder="Regno" onmouseout="Recover();" style="height:50px;">  
+  </div>  
+    <button type="submit" id="bt" class="btn btn-danger btn-lg" onmouseover="Recover();">  
+      <span class="glyphicon glyphicon-search"></span> Search  
+    </button>  
+
+</form>
+</div>
+<div class="col-md-4">
+    
+</div>
+</div>
+  </div> 
+    
+     <br />
+   <br />
+<div id="section2" class="container"><br /><br />
+ 
+<div class="row"><br />
+<div class="col-md-6 top">
+  
+<br /><br />
+
+<form class="form-horizontal" role="form" name="fm"  id="box" style="padding:10px;">  
+<form style="width:600px">
+<div class="form-group">  
+      <label class="control-label col-sm-4" for="email">Name:<span class="glyphicon glyphicon-user" ></span></label>  
+      <div class="col-sm-8">  
+        <input type="text" class="form-control" id="email" name="nm" required placeholder="Enter name" style="height:50px; ">  
+      </div>  
+    	 </div>
+  <div class="form-group">  
+      <label class="control-label col-sm-4" for="email">Email:@</label>  
+      <div class="col-sm-8">  
+        <input type="email" class="form-control" id="email" name="el" required placeholder="Enter email" style="height:50px; ">  
+      </div>  
+    </div>  
+    <div class="form-group">  
+      <label class="control-label col-sm-4" for="phone">Phone:<span class="glyphicon glyphicon-phone" aria-hidden="true" style="height:50px; "></span></label>  
+      <div class="col-sm-8">            
+        <input type="text" class="form-control" id="phone" name="pe" placeholder="phone" required pattern="[0-9]{11}" style="height:50px; ">  
+      </div>  
+    </div>  
+	 <div class="form-group" style="border:none;">  
+      <label class="control-label col-sm-4" for="phone">Gender:<span class="fa fa-male" aria-hidden="true"></span><span class="fa fa-female" aria-hidden="true"></span></label>  
+      <div class="col-sm-8"> 
+    <div class="form-control" style="border:none;">	  
+        <input type="radio"  name="gr"  style="margin-left:10px;" required value="Male" >Male  
+        <input type="radio"  name="gr" style="margin-left:10px;" required value="Female" >Female 
+        </div>		
+      </div>  
+    </div> 
+    
+	 <div class="form-group">  
+      <label class="control-label col-sm-4" for="msg">Message:<span class="glyphicon glyphicon-envelope"></span></label>  
+      <div class="col-sm-8">            
+        <textarea name="msg" class="form-control" cols="80" rows="10" id="msg"></textarea>  
+      </div>  
+    </div>
+  <div class="form-group">          
+      <div class="col-sm-offset-4 col-sm-8">  
+        <button type="button" class="btn btn-primary btn-lg" onclick="sendInfo();">Submit</button>  
+      </div>  
+    </div>  
+  </form>
+    <span id="dcd" style="color:white;padding:px;font-size:18px;background-color:red;"></span><br />
+  <span id="ddd" style="color:white;padding:px;font-size:18px;background-color:green;"></span><br />
+
+</div>
+
+<div class="col-md-6"><br /><br />
+
+<h4 style="background-color:Navy;color:white;width:130px;padding:8px;">Get In Touch</h4>
+<big>Thank you for your interest in kambok services. We will be glad to answer all your questions as 
+well as estimate the cost of your Training with us. 
+Our Team will process the request and we will get back to you within one business day.</big>
+
+<address style="line-height:200%;">
+
+<h3 style="background-color:Navy;color:white;width:250px;padding:8px;">Gwagwalada Office:</h3>
+<big><span class="glyphicon glyphicon-home" aria-hidden="true"></span> &nbsp;No:1 osla junction phase 2 along mimi campus,
+  <big>Gwagwalada Abuja,</big><br />
+  <big>Nigeria.</big> <br />
+  <big><span class="glyphicon glyphicon-phone" aria-hidden="true"></span>&nbsp;234(0)70-669-105-98,&nbsp;234(0)80-5089-7354.</big><br />
+  <big><i class="fa fa-whatsapp"></i>&nbsp;234(0)70-669-105-98.</big><br />
+  <big>Email:&nbsp;kamboklimited@gmail.com</big><br />
+
+</address>
+
+<img src="images/certified.jpg" width="120">
+
+</div>
+
+
+</div> 
+ </div>  
+ <div id="section3" class="container"> <br /><br /><br /><br /> 
+  <div class="row">
+  <div class="col-md-2">
+  </div>
+<div class="col-md-8 top">
+
+<h2 style="background-color:Navy;color:white;width:130px;padding:8px;">Services</h2>
+<big>KAMBOK  is no 1 in the field of Programming &  Network Training programs for every students and working professionals.</big><br /><br />
+
+<strong style="background-color:Navy;color:white;width:130px;padding:8px;">Consultancy: -</strong><br /><br />
+<big>KAMBOK provides job consultancy to the KAMBOK certified students.</big><br /><br />
+
+
+<strong style="background-color:Navy;color:white;width:130px;padding:8px;">Development :-</strong><br /><br />
+<big>KAMBOK development deals in creating of web and mobile application production development.</big><br /><br />
+
+<strong style="background-color:Navy;color:white;width:130px;padding:8px;">Brief Description about KAMBOK :-</strong><br /><br />
+<big>KAMBOK INFOTECH is the leader in the “specialized training” brands of Nigeria certified for its best quality. KAMBOK INFOTECH is the largest training service provider in various computer science domains for all students as well as for the working professionals. It has an extensive experience of nurturing over 1000+ students in the past few years.
+</big><br /><br />
+<strong  style="background-color:Navy;color:white;width:130px;padding:8px;">Vission:-</strong><br /><br />
+<big>To provide Technical education in Nigeria.To empower and encourage everyone in the field of Technology.</big><br /><br />
+<strong  style="background-color:Navy;color:white;width:130px;padding:8px;">Mission:-</strong><br /><br />
+<big>KAMBOK mission which is working for the promotion of latest technologies in Nigeria and abroad.</big>
+</div>
+
+<div class="col-md-2right">
+
+</div>
+</div>
+</div>
+
+
+
+<div id="section5" class="container">  
+  <br /><br />
+  <br /><br />
+ 
+  <div class="row">
+  <div class="col-md-2">
+  </div>
+  <div class="col-md-8" id="box"><br />
+   <h6 style="color:Navy;width:auto;padding:8px;font-size:20px;font-family:New Time Roman;  ">Fill All Information</h6>  
+     <form class="form-inline" role="form" name="myform2"  method="get">  
+    <form style="width:290px"> 
+   
+  <div class="form-group">  
+    <label for="exampleInputEmail1">FirstName <span class="glyphicon glyphicon-user"></span></label> <br /> 
+    <input type="text" class="form-control" name="fn" required="required" id="exampleInputEmail1" placeholder="First Name" onkeyup="Validation1()" style="height:50px; ">  
+  </div> 
+<div class="form-group">  
+    <label for="middlename">MiddleName <span class="glyphicon glyphicon-user"></span></label> <br /> 
+    <input type="text" class="form-control" name="mn" required="required" id="middlename" placeholder="Middle Name" onkeyup="Validation2()" style="height:50px; ">  
+  </div>
+<div class="form-group">  
+    <label for="exampleInputEmail1">LastName <span class="glyphicon glyphicon-user"></span></label><br />  
+    <input type="text" class="form-control" name="ln" required="required" id="exampleInputEmail1" size="30" placeholder="Last Name" onkeyup="Validation3()" style="height:50px;">  
+  </div><br /><br /> 
+<div class="form-group">  
+    <label for="exampleInputEmail1">Email @</label><br />  
+    <input type="email" class="form-control" name="em" required="required" id="exampleInputEmail1" placeholder="Email" onkeyup="Validation4()" style="height:50px; ">  
+  </div>  
+  <div class="form-group">  
+    <label for="exampleInputPassword1">Password <span class="glyphicon glyphicon-lock"></span></label><br />  
+    <input type="password" class="form-control" name="ps"  required="required" id="exampleInputPassword1" placeholder="Password" onkeyup="Validation5()" style="height:50px; ">  
+  </div>
+  <div class="form-group">  
+    <label for="exampleInputPassword1">ConfirmPassword <span class="glyphicon glyphicon-lock"></span></label><br />  
+    <input type="password" class="form-control"  name="cps" size="30" required="required" id="exampleInputPassword1" placeholder=" confirm Password" onkeyup="Validation6()" style="height:50px; ">  
+  </div><br /><br />
+<div class="form-group">  
+    <label for="countySel">Course Name <span class="glyphicon glyphicon-book"></span></label> <br /> 
+    <select  class="form-control"  name="cn" id="countySel" size="1" style="width:200px;height:50px; " required="required" >
+	<option value="all" selected="selected">List of all programs</option>
+  	 <option value="computer basic 1">Computer Basic 1</option>
+  	<option value="computer basic 2" >Computer Basic 2</option>
+  		<option value="java programming" >Java programming basic</option>
+  	  		<option value="Python programming">Python programming basic</option>
+  	  		 <option value="Php programming">PHP programming basic</option>  		
+  	  		 <option value="NodeJS programming">Nodejs programming basic</option>
+  	  		   		<option value="frontend basic" >Frontend/UI basic </option>  		
+  	  		   		<option value="front advance" >Frontend/UI Advance</option>
+  	  		   		<option value="java advance" >Java Advance Programming</option>
+  	  		   		<option value="python advance" >Python Advance Programming</option>
+  	  		   		<option value="PHP advance" >PHP Advance Programming</option>
+  	  		   		<option value="Node advance" >Nodejs Advance Programming</option>
+  	  		   		<option value="java full stack" >Java Full Stack</option>
+  	  		   		<option value="python full stack" >Python Full Stack</option>
+  	  		   		<option value="nodejs full stack" >Nodejs Full Stack</option>
+  	  		   		<option value="php full stack" >PHP Full Stack</option>
+  	  		   		<option value="android">Android Mobile</option>
+  	  		   		<option value="web programming" >Web Programming</option>
+  	  		    
+</select>  
+  </div>
+  <div class="form-group">  
+    <label for="number">Phone <span class="glyphicon glyphicon-phone"></span></label><br /> 
+    <input type="tel" class="form-control" id="number" name="num" placeholder="11 digits phone no." pattern="[0-9]{11}" required="required" style="height:50px; ">  
+  </div>
+  <div class="form-group">  
+    <label for="countySel">Educational Status <i class="glyphicon glyphicon-education"></i></label> <br /> 
+    <select  class="form-control"  name="ed" id="countySel" size="1" style="width:200px;height: 50px;" required="required">
+	<option value="student" selected="selected">select</option>
+	<option value="O level" >O level</option>
+	<option value="Undergraduate">Under-Graduate</option>
+        <option value="Graduate">Graduate</option>
+        <option value="Master">Master</option>
+        <option value="Phd">Phd</option>
+	</select> 
+  </div>
+    <br /><br />
+    
+   <div class="form-group">  
+    <label for="countySel">Occupation Status <i class="glyphicon glyphicon-globe"></i></label> <br /> 
+    <select  class="form-control"  name="occupation" id="countySel" size="1" style="width:200px;height: 50px;" required="required">
+	<option value="student" selected="selected">Student</option>
+	<option value="employed" >Employed</option>
+	<option value="unemployed">Unemployed</option>
+	</select>  
+  </div>
+  <div class="form-group">  
+    <label for="exampleInputEmail1">Message <span class="glyphicon glyphicon-envelope"></span></label><br />  
+    <input type="text" class="form-control" name="mymsg" required="required" id="exampleInputEmail1" placeholder="Message" onkeyup="Validation3()" style="height:50px; ">  
+  </div>
+   <div class="form-group">
+   
+  <label  style="margin-left:10px;">Gender <span class="fa fa-male" aria-hidden="true"></span><span class="fa fa-female" aria-hidden="true"></span></label> <br />	
+<div>  
+<label><input type="radio" name="gender" value="Male" required="required"  style="margin-left:10px; height:50px; " >Male</label>  
+     
+<label><input type="radio" name="gender" value="Female" required="required"  style="margin-left:10px; height:50px; " >Female</label> 
+</div> 
+    </div><br />
+    <b id="cdcd" class="text-success"></b></b>
+	<br />
+        <p><input type="checkbox" required="required" name="Agreed" value="Agreed"><label style="font-size:14px;"> &nbsp;  I here by declare that all the above information are true to the best of my knowledge</label></p>
+    <button type="button" class="btn btn-primary"  style="padding:10px;" onclick="sendRegister();">Register Now</button>  
+</form>
+         
+         <br /><br />
+         <span id="re" style="color:red;"></span>
+     <span id="nameloc"></span>
+  
+  </div>
+  <div class="col-sm-2">
+  </div>
+  </div>
+</div><br /><br />
+<div id="section6" class="container">
+<br /><br /><br /><br /><br />
+<div class="row">
+<div class="col-sm-4"></div>
+<div class="col-sm-4" id="box" style="padding-left:10px;"><br /><br />
+<big style="text-decoration:none; background-color:navy;color:white;padding:15px;">Login info:</big><br /><br />
+<form style="width:290px" action="Login" method="post">  
+  <div class="form-group">  
+    <label for="exampleInputEmail1">Username &nbsp;<i class="glyphicon glyphicon-user"></i></label>  
+    <input type="text" class="form-control" id="exampleInputEmail1"  name="Email" placeholder="Email" style="height:50px; ">  
+  </div>  
+  <div class="form-group">  
+    <label for="exampleInputPassword1">Password &nbsp;<i class="glyphicon glyphicon-lock"></i></label>  
+    <input type="password" class="form-control" id="exampleInputPassword1" name="Password" placeholder="Password" style="height:50px; ">  
+  </div> 
+<strong ><a href="kambok.html?#section5" style="text-decoration:none; background-color:navy;color:white;padding:10px;">New Applicant?</a> &nbsp; &nbsp;
+</strong><strong><a href="#section6" style="text-decoration:none; background-color:navy;color:white;padding:10px;">Forgotten?</a></strong> <br /><br /> 
+<span id="cc"></span>
+     <button type="submit" class="btn btn-success btn-lg" style="height:50px; ">Login</button> <br /><br /><span id="loc"></span> 
+</form> 
+</div>
+<div class="col-sm-4"></div>
+
+</div>  
+</div>
+
+<div id="review" class="container"> 
+
+<br /><br /><br /><br />
+<div class="row" id="box" style="padding-left:10px;background-color:white;color:black;box-shadow:4px 5px 10px navy;">
+<div class="col-md-1"></div>
+<div class="col-md-10" >
+<br /><br />
+
+    
+
+<h3>What is Full Stack Development?</h3>
+<p>
+Full-stack development can be  defined as the process of developing both server and client-side web applications and programs. Apart from frontend languages such as HTML and CSS, full-stack developers also need to know backend languages such as Java. They must also know how to program servers using Java, Python, or Node as well as  program databases with SQL or MongoDB.
+With full-stack development, you can work on an entire website or web application independently, without any help from others even for the databases. You can also take the help of various frameworks such as Django or Spring boot. 
+Let us take an example where a medium-sized business wishes to sell its pen online. Instead of getting an entire agency to work for them or finding frontend and backend developers separately, the company can simply choose to hire a single full-stack developer. The full-stack developer will design the website according to the client’s requirements, set up the backend functions and e-commerce features, install the databases and then host the website on the server alone. 
+Skills Required for Full Stack Developers
+Full-stack developers require frontend, backend, and database skills. To carry on their daily work, they need to know several scripting and programming languages. To make the development process more effective and powerful, full-stack developers should be able to  work with various frontend and backend frameworks.
+</p>
+
+<h3>The Frontend:</h3>
+<p>
+For developing the frontend, a deep understanding of HTML and CSS is absolutely essential. Even though JavaScript is generally used for client-side work, a lot of full-stack developers use JavaScript for the frontend as well.
+Now, for libraries and frameworks, full-stack developers can choose from Angularjs, SASS, React, Bootstrap, jQuery, Express, React, and many more.
+The Backend: 
+PHP and Python have been the most popular backend languages for quite some time now; however, many developers like using Java and C++ for advanced web applications as well. As we discussed earlier, JavaScript is a backend language as well, and thus, it is also extensively used for server-side work. Ruby, Scala, and C# are also sometimes used.
+TypeScript is another alternative to JavaScript, while Node is a more effective way of running JS code. Similar to the frontend, there are many backend frameworks as well, such as Spring, Django, Express, Laravel, and Rails.
+</p>
+
+<h3>The Database:</h3>
+<p>
+Databases are necessary for queries as well as for storing or retrieving data. Thus, knowing how to manage databases and work on database servers is essential. MongoDB, MySQL, or MariaDB are some systems  you must be skilled in to be a full-stack developer. You can either learn how to use NoSQL databases or SQL databases
+Career Prospects of Full Stack Developers
+So, is web development a good career? Yes, absolutely. Web development is one of the leading domains in technology right now. 
+Businesses are moving online like never before. 79% of businesses have already made changes due to the Covid-19 pandemic. According to Shopify, 53% more people have already started building websites for their businesses.
+The demand for e-commerce will also end up fuelling the demand for full-stack developers, especially for custom-built web portals. More than anything, full-stack developers will be needed for small-business owners who are shifting their business operations online. Full-stack developers work in Finance, IT, Education, Medicine, Recruitment, and many other sectors.
+</p>
+<h3>
+Here are some job roles for full-stack developers:</h3>
+<ul>
+<li>
+Full-stack Developer</li>
+	<li>Frontend Developer</li>
+	<li>Backend Developer</li>
+	<li>Database Expert</li>
+	<li>Web Developer</li>
+	<li>Web Designer</li>
+</ul>
+<ul>
+<li>Full stack python</li>
+	<li>Course duration:8 months</li>
+	<li>Project duration:1 month</li>
+	<li>Class days:four days in a week</li>
+	<li>Class-time 2:30 mins </li>
+	<li>Fee: N200,000</li>
+</ul>
+<ul>
+ <li>Full stack java </li>
+	<li>Course duration:10 months</li>
+	<li>Project duration:1 month</li>
+	<li>Class days:four days in a week</li>
+	<li>Class-time 2:30 mins</li> 
+	<li>Fee: N250,000</li>
+</ul>
+<ul>
+<li>Full stack PHP</li>
+	<li>Course duration:8 months</li>
+	<li>Project duration:1 month</li>
+	<li>Class days:four days in a week</li>
+	<li>Class-time 2:30 mins </li>
+	<li>Fee: N200,000</li>
+</ul>
+<ul>
+<li>Full stack Nodejs</li>
+<li>Course duration:8 months</li>
+<li>Project duration:1 month</li>
+<li>Class days:four days in a week</li>
+<li>Class-time 1:30 mins</li> 
+<li>Fee: N200,000</li>
+</ul>
+
+<h3>How to started?</h3>
+ <p>	Requirements:<br />
+	Personal Laptop computer:4gb ram above 
+	Two note books<br />
+	Flash driver:2gb above <br />
+	Registration fee:N2,000 <br />
+	Examination fee:N1,000 <br />
+	Certificate fee:N2,000 <br />
+	</p>
+	<p>
+<h4>When do i start lectures?
+	Lectures commence after 50% of the course fee.
+	</h4>
+</p>
+
+
+<h3>What Is a Front-End Developer?</h3>
+<p>
+Front-end web development, also known as client-side development is the practice of producing HTML, CSS and JavaScript for a website or Web Application so that a user can see and interact with them directly. The challenge associated with front end development is that the tools and techniques used to create the front end of a website change constantly and so the developer needs to constantly be aware of how the field is developing.
+The objective of designing a site is to ensure that when the users open up the site they see the information in a format that is easy to read and relevant. This is further complicated by the fact that users now use a large variety of devices with varying screen sizes and resolutions thus forcing the designer to take into consideration these aspects when designing the site. They need to ensure that their site comes up correctly in different browsers (cross-browser), different operating systems (cross-platform) and different devices (cross-device), which requires careful planning on the side of the developer.
+</p>
+<h3>
+Front-End Jobs Titles</h3>
+<big>
+Below is a list and description of various front-end job titles. The common, or most used (i.e., generic), title for a front-end developer is, "front-end developer" or "front-end engineer". Note that any job that contains the word "front-end", "client-side", "web UI", "HTML", "CSS", or "JavaScript" typically infers that a person has some degree of HTML, CSS, DOM, and JavaScript professional know how.
+</big>
+<h3>
+Front-End Developer</h3>
+<p>
+The generic job title that describes a developer who is skilled to some degree at HTML, CSS, DOM, and JavaScript and implementing these technologies on the web platform.
+</p>
+<h3>Front-End Engineer (aka JavaScript Developer or Full-stack JavaScript Developer)</h3>
+<p>The job title given to a developer who comes from a computer science, engineering, background and is using these skills to work with front-end technologies. This role typically requires a computer science degree and years of software development experience. When the word "JavaScript Application" is included in the job title, this will denote that the developer should be an advanced JavaScript developer possessing advanced programming, software development, and application development skills (i.e has years of experience building front-end applications).
+Web/Front-End User Interface (aka UI) Developer/Engineer
+When the word "Interface" or "UI" is included in the job title, this will denote that the developer should posses interaction design skills in addition to front-end developer skills or front-end engineering skills.
+</p>
+<h3>Mobile/Tablet Front-End Developer</h3>
+<p>
+When the word "Mobile" or "Tablet" is included in the job title, this will denote that the developer has experience developing front-ends that run on mobile or tablet devices (either natively or on the web platform, i.e., in a browser).
+</p>
+
+<h3>Front-End SEO Expert</h3>
+<p>
+When the word "SEO" is included in the job title, this will denote that the developer has extensive experience crafting front-end technologies towards an SEO strategy.
+</p>
+<h3>Front-End Accessibility Expert</h3>
+<p>
+When the word "Accessibility" is included in the job title, this will denote that the developer has extensive experience crafting front-end technologies that support accessibility requirements and standards.
+</p>
+<h3>Front-End Dev. Ops</h3>
+<p>
+When the word "DevOps" is included in the job title, this will denote that the developer has extensive experience with software development practices pertaining to collaboration, integration, deployment, automation, and measurement.
+</p>
+<h3>Front-End Testing/QA</h3><p>
+When the word "Testing" or "QA" is included in the job title, this will denote that the developer has extensive experience testing and managing software that involves unit testing, functional testing, user testing, and A/B testing.
+</p>
+<h3>NOTES:</h3><p>
+If you come across the "Full Stack" or the generic "Web Developer" terms in job titles these words may be used by an employer to describe a role that is responsible for all aspects of web/app development, i.e., both front-end (potentially including design) and back-end.
+</p>
+
+<ul>
+<li>Front-end Basic</li>
+<li>Course duration:3 months</li>
+<li>Project duration:1 month</li>
+<li>Class days:four days in a week</li>
+	<li>Class-time 1:30 mins </li>
+<li>	Fee: N60,000</li>
+</ul>
+<ul>
+<li>Front-end Advance</li>
+<li>Course duration:4 months</li>
+<li>Project duration:1 month</li>
+<li>Class days:four days in a week</li>
+<li>Class-time 2:30 mins </li>
+<li>Fee: N60,000</li>
+</ul>
+
+
+     
+
+<h3>Introduction to computer programming</h3><p>
+Computer programming is the process of performing a particular computation (or more generally, accomplishing a specific computing result), usually by designing and building an executable computer program. Programming involves tasks such as analysis, generating algorithms, profiling algorithms' accuracy and resource consumption, and the implementation of algorithms (usually in a chosen programming language, commonly referred to as coding). The source code of a program is written in one or more languages that are intelligible to programmers, rather than machine code, which is directly executed by the central processing unit. The purpose of programming is to find a sequence of instructions that will automate the performance of a task (which can be as complex as an operating system) on a computer, often for solving a given problem. Proficient programming thus usually requires expertise in several different subjects, including knowledge of the application domain, specialized algorithms, and formal logic. 
+Tasks accompanying and related to programming include testing, debugging, source code maintenance, implementation of build systems, and management of derived artifacts, such as the machine code of computer programs. These might be considered part of the programming process, but often the term software development is used for this larger process with the term programming, implementation, or coding reserved for the actual writing of code. Software engineering combines engineering techniques with software development practices. Reverse engineering is a related process used by designers, analysts, and programmers to understand an existing program and re-implement its function
+Programmers</p>
+<h3>
+Main articles: Programmer and Software engineer</h3>
+<p>
+Computer programmers are those who write computer software. Their jobs usually involve: </p>
+<ul>
+<li>	Prototyping</li>
+	<li>Coding</li>
+	<li>Debugging</li>
+	<li>Documentation</li>
+	<i>Integration</i>
+	<li>Maintenance</li>
+	<li>Requirements analysis</li>
+	<li>Software architecture</li>
+	<li>Software testing</li>
+	<li>Specification</li>
+</ul>
+
+
+<h3>Java programming language</h3>
+	<p>Course duration:3 months<br />
+	Project duration:1 month<r />
+	Class days:four days in a week <br />
+	Class-time 1:30 mins <br />
+	Fee: N50,000<br />
+</p>
+
+<h3>Python programming language</h3>
+	<p>Course duration:3 months<br />
+	Project duration:1 month <br />
+	Class days:four days in a week<br />
+	Class-time 1:30 mins <br />
+	Fee: N50,000<br />
+</p>
+<h3>PHP programming language</h3>
+<p>	Course duration:3 months <br />
+	Project duration:1 month <br />
+	Class days:four days in a week <br />
+	Class-time 1:30 mins <br />
+	Fee: N50,000 <br />
+</p>
+<h3>NodeJS programming language</h3>
+<p>	Course duration:3 months <br />
+	Project duration:1 month<br />
+	Class days:four days in a week <br />
+	Class-time 1:30 mins <br />
+	Fee: N50,000 <br />
+
+</p>
+
+</div>
+<div class="col-md-1">
+    
+</div>
+</div>
+</div>
+
+<div id="loanregister" class="container">  
+  <br /><br />
+  <br /><br />
+ 
+ 
+  <div class="row">
+  <div class="col-md-2">
+  </div>
+  <div class="col-md-8" id="box"><br />
+   <h6 style="color:Navy;width:auto;padding:8px;font-size:20px;font-family:New Time Roman;  ">Fill All Information</h6>  
+     <form class="form-inline" role="form" name="myform" enctype="multipart/form-data" action="" method="post">  
+    <form style="width:290px"> 
+   
+  <div class="form-group">  
+    <label for="exampleInputEmail1">FirstName <span class="glyphicon glyphicon-user"></span></label> <br /> 
+    <input type="text" class="form-control" name="firstname" required="required" id="f1" placeholder="First Name" onkeyup="Validation1()" style="height:50px; ">  
+  </div> 
+<div class="form-group">  
+    <label for="exampleInputEmail1">LastName <span class="glyphicon glyphicon-user"></span></label><br />  
+    <input type="text" class="form-control" name="lastname" required="required" id="l1" placeholder="Last Name" onkeyup="Validation3()" style="height:50px;">  
+  </div>
+ <div class="form-group">  
+    <label for="number">Phone <span class="glyphicon glyphicon-phone"></span></label><br /> 
+    <input type="tel" class="form-control" id="p1" name="p1" size="35" placeholder="11 digits phone no." pattern="[0-9]{11}" required="required" style="height:50px; ">  
+  </div><br /><br /> 
+<div class="form-group">  
+    <label for="exampleInputEmail1">Address@</label><br />  
+    <input type="text" class="form-control" name="address" required="required" id="a1" placeholder="Address" onkeyup="Validation4()" style="height:50px; ">  
+  </div>  
+  <div class="form-group">  
+    <label for="exampleInputPassword1">Identity no <span class="glyphicon glyphicon-lock"></span></label><br />  
+    <input type="text" class="form-control" name="identityno"  required="required" id="i1" placeholder="Identity number" onkeyup="Validation5()" style="height:50px; ">  
+  </div>
+  <div class="form-group">  
+    <label for="exampleInputPassword1">Identity photo<span class="glyphicon glyphicon-lock"></span></label><br />  
+    <input type="file" class="form-control"  name="identityphoto"  required="required" id="photo" onkeyup="Validation6()" style="height:50px;max-width:auto;">  
+  </div><br />
+   <br />
+   
+      <div class="form-group">  
+    <label for="exampleInputEmail1">Admin Username <span class="glyphicon glyphicon-user"></span></label> <br /> 
+    <input type="text" class="form-control" name="admin1" required="required" id="ad1" placeholder="Admin Id" onkeyup="Validation1()" style="height:50px; ">  
+  </div> 
+<div class="form-group">  
+    <label for="exampleInputEmail1">Admin Password <span class="glyphicon glyphicon-lock"></span></label><br />  
+    <input type="password" class="form-control" name="admin2" required="required" id="ad2" placeholder="Admin password" onkeyup="Validation3()" style="height:50px;">  
+  </div>
+   
+  <div class="form-group"> 
+ <label for="exampleInputEmail1"></label><br />
+ <button type="button" class="btn btn-primary form-control"  style="padding:10px;height:50px;margin-top:30px;" onclick="upload();" >Register Now</button>  
+<strong><a href="#section7" style="padding:10px;height:50px;margin-top:30px;text-decoration: none;" class="btn btn-success form-control">Apply</a></strong> <br /><br />
+</div>
+     
+
+</form>
+         
+         <br /><br />
+         <span id="re" style="color:red;"></span>
+     <span id="nameloc"></span>
+  
+  </div>
+  <div class="col-sm-2">
+  </div>
+  </div>
+</div>
+
+<br /><br /><br /><br /><br />
+
+
+<div id="uploadfile" class="container">  
+  <br /><br />
+  <br /><br />
+ 
+ 
+  <div class="row">
+  <div class="col-md-2">
+  </div>
+  <div class="col-md-8" id="box"><br />
+   <h6 style="color:Navy;width:auto;padding:8px;font-size:20px;font-family:New Time Roman;  ">Fill All Information</h6>  
+     <form class="form-inline" role="form" name="myform" enctype="multipart/form-data" action="" method="post">  
+    <form style="width:290px"> 
+   
+  <div class="form-group">  
+    <label for="exampleInputEmail1">TransactionID<span class="glyphicon glyphicon-user"></span></label> <br /> 
+    <input type="text" class="form-control" name="tr1" required="required" id="tr1" placeholder="TransactionID" size="35" onkeyup="Validation1()" style="height:50px; ">  
+  </div> 
+
+ <div class="form-group">  
+    <label for="number">Phone <span class="glyphicon glyphicon-phone"></span></label><br /> 
+    <input type="tel" class="form-control" id="ph1" name="ph1" placeholder="11 digits phone no." pattern="[0-9]{11}" size="35" required="required" style="height:50px; ">  
+  </div><br /><br /> 
+<div class="form-group">  
+    <label for="exampleInputEmail1">Collateral <span class="glyphicon glyphicon-file"></label><br />  
+    <input type="file" class="form-control" name="coll" required="required" id="coll" placeholder="file" onkeyup="Validation4()" style="height:50px; ">  
+  </div>  
+  <div class="form-group">  
+    <label for="exampleInputPassword1">Ownership<span class="glyphicon glyphicon-file"></span></label><br />  
+    <input type="file" class="form-control" name="own"  required="required" id="own" placeholder="file" onkeyup="Validation5()" style="height:50px; ">  
+  </div>
+  <br />
+  <div class="form-group"> 
+ <label for="exampleInputEmail1"></label><br />
+ <button type="button" class="btn btn-primary form-control"  style="padding:10px;height:50px;margin-top:30px;" onclick="upload2();" >Upload</button> 
+  <strong><a href="#section7" style="padding:10px;height:50px;margin-top:30px;text-decoration: none;" class="btn btn-success form-control">Apply</a></strong> <br /><br />
+</div>
+     
+
+</form>
+         
+         <br /><br />
+         <span id="re" style="color:red;"></span>
+     <span id="nameloc"></span>
+  
+  </div>
+  <div class="col-sm-2">
+  </div>
+  </div>
+</div>
+<br /><br /><br /><br />
+
+<div id="section7" class="container">
+<br />
+<br />
+
+
+<div class="row">
+<div class="col-sm-3"></div>
+<div class="col-sm-8" id="box" style="padding-left:10px;"><br />
+<big style="text-decoration:none; background-color:navy;color:white;padding:15px;">Collate information:</big><br /><br />
+<form style="width:400px" action="Login" method="post" name="loan" id="apply">  
+  <div class="form-group">  
+    <label for="exampleInputEmail1">Amount &nbsp;<i class="glyphicon glyphicon-user"></i></label>  
+    <input type="text" class="form-control" id="amount"  name="amount" placeholder="Amount" onchange="collate();" onmouseout="collate();" style="height:50px; ">  
+  </div>  
+  <div class="form-group">  
+    <label for="exampleInputPassword1">Duration &nbsp;<i class="glyphicon glyphicon-lock"></i></label>  
+    <select name="duration" class="form-control" id="duration" style="height:50px;" onmouseout="collate();" onchange="collate();">
+    <option value="0">24 hours</option>
+      <option value="1">1 week</option>
+        <option value="2">2 weeks</option>
+          <option value="3">3 weeks</option>
+            <option value="4">4 weeks</option>  
+           
+    </select>
+    
+  </div> 
+
+<P><b><span id="mydate"></span> <span id="endd"></span>  <span id="interested"></span></b></P>
+
+<input type="hidden" id="start" name="start">
+<input type="hidden" id="end" name="end">
+<input type="hidden" id="interest" name=interest>
+<div class="form-group">  
+    <label for="exampleInputEmail1">Register phone &nbsp;<i class="glyphicon glyphicon-user"></i></label>  
+    <input type="text" class="form-control" id="userphone"  name="userphone" placeholder="register user phone" onmouseout="senDetails();" onchange="senDetails();" style="height:50px; ">  
+  </div> 
+  <P><b id="info"></b></P>
+<button type="button" onclick="collate();" class="btn btn-primary btn-sm" style="height:50px; ">Calculate</button>
+<button type="button" onclick="apply();" class="btn btn-success btn-sm" style="height:50px; " id="applly" >Apply</button> 
+
+
+<strong><a href="#loanregister" style="text-decoration:none; background-color:green;color:white;padding:5px;">Register</a></strong> 
+
+
+<strong><a href="#uploadfile" style="text-decoration:none; background-color:navy;color:white;padding:5px;">Upload</a></strong> <br /><br />
+
+
+</form> 
+<script>
+
+document.getElementById("applly").disabled = true; 
+</script>
+</div>
+<div class="col-sm-1"></div>
+
+</div>  
+</div>
+
+<br />
+<br />
+<br />
+<br />
+<br />
+<script src="js/jquery-ui.js"></script>
+<script src="../vendor/jquery/jquery.min.js"></script>
+    <script src="../vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Core plugin JavaScript-->
+    <script src="../vendor/jquery-easing/jquery.easing.min.js"></script>
+
+    <!-- Custom scripts for all pages-->
+    <script src="../js/sb-admin-2.min.js"></script>
+
+    <!-- Page level plugins -->
+    <script src="../vendor/datatables/jquery.dataTables.min.js"></script>
+    <script src="../vendor/datatables/dataTables.bootstrap4.min.js"></script>
+
+    <!-- Page level custom scripts -->
+    <script src="../js/demo/datatables-demo.js"></script>
+</body>
+ </html>  
